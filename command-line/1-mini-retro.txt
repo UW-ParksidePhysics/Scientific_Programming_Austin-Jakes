@@ -1,17 +1,18 @@
-Partner:
+Partner: Austin
 
 What Went Well
 ---
-
+I was able to copy and paste the terminal into the command line.
 
 What Would Make Next Time 1% Better
 ---
 * Focus:
-
+If I had experience, I might be able to complete assignments quicker.
 * Communication:
-
+If I knew what I was talking about I could explain information better.
 * Pacing:
-
+I was rather slow completing this assignment.
 * Division of responsibility
-
+I tried my best.
 * Code quality:
+My code is inaccurate
