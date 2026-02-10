@@ -1,1 +1,9 @@
+(venv) root@deepnote:~/work # touch notes.txt
+(venv) root@deepnote:~/work # vi notes.txt
+(venv) root@deepnote:~/work # cat notes.txt
+This is my first file created in the terminal
 
+(venv) root@deepnote:~/work # touch shopping_list.txt
+vi(venv) root@deepnote:~/work # vi shopping_list.txt
+(venv) root@deepnote:~/work # cat shopping_list.txt
+apples,bread,milk,coffee
