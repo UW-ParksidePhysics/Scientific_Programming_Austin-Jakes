@@ -1,2 +1,4 @@
 # Concepts
+* File Permission
+* Variable
 * 
