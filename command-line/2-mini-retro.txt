@@ -1,17 +1,17 @@
-Partner:
+Partner:Austin
 
 What Went Well
----
+--- I learned some new commands such as 'vi' opening a new file and 'cat' to view the file contents. 
 
 
 What Would Make Next Time 1% Better
 ---
-* Focus:
+* Focus:I am able to learn by doing
 
-* Communication:
+* Communication:It would be difficult to explain to someone what I am doing.
 
-* Pacing:
+* Pacing:I am rather slow at typing
 
-* Division of responsibility
+* Division of responsibility:I slowly but surly completed the assignment
 
-* Code quality:
+* Code quality: My code is not accurate
