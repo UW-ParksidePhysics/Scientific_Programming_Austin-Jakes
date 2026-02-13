@@ -1,4 +1,4 @@
 # Concepts
 * File Permission
-* Variable
-* 
+* Comment
+* text editor

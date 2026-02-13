@@ -1,5 +1,2 @@
 # Concepts
-* Function
-* String
-* List
-* 
+* variables
