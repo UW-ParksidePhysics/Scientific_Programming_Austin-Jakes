@@ -1,2 +1,4 @@
 # Concepts
+* Directory
+* Redirection
 * 
