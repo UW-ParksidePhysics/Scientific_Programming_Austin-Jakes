@@ -1,17 +1,18 @@
-Partner:
+Partner:Austin,Matthew
 
 What Went Well
----
-
+Finished assignment and terimnal was quicker
+Challenge was completed smoothly
 
 What Would Make Next Time 1% Better
----
-* Focus:
 
-* Communication:
 
-* Pacing:
+* Focus: 10/10
 
-* Division of responsibility
+* Communication: 10/10
 
-* Code quality:
+* Pacing: 10/10
+
+* Division of responsibility: Equally Distributed
+
+* Code quality: 95%
