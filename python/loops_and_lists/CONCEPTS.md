@@ -1,2 +1,4 @@
 # Concepts
-* 
+* Index
+* String
+* Indent
