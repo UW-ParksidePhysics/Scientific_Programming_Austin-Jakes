@@ -1,13 +1,7 @@
-times_positions = [[0.1,1.1,2.1].[0.1,0.5,2.2]]  # time, position
 
-times = times_positions[0]
+#not sure how to properly code this
 
-positions = times_positions[1]
+times_positions = [[0.000, 0.113, 0.227, 0.340, 0.453, 0.566, 0.680, 0.793, 0.906, 1.019 ],
+    [0.000, 0.503, 0.881, 1.133, 1.258, 1.258, 1.133, 0.881, 0.503, 0.000]]  # time, position
 
-
-times1 = [0,1,2,3]    # seconds
-acceleration = 1    #m/s^2
-
-positions1 = [0.5 * acceleration*time*time for time in times1]  # list comprehension
-
-print(f'{positions1}')
+print(f't = {times_positions[0]},      \n y = {times_positions[1]}')

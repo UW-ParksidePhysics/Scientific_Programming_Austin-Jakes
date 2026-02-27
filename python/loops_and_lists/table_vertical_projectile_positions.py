@@ -72,10 +72,19 @@ for index in range(len(all_times[0])):
         row_values += 5*' '
     print(row_values)
 
+print(60*'_')
+print(f'While Loop:')
 
-# While loop
 index = 0
-while index < number_of_times:
+while index < number_of_times + 1:    
+    row_values = ''
+    
+    row_values += f'{times[index]:9.3f}'
+    row_values += f'{positions[index]:14.3f}'
+    row_values += 5*''
+    
+    print(row_values)
+    
     index += 1
-    print(f'{times[index]:.3f}')
-    print(f'{positions)[index]:.3f}')
+
+
