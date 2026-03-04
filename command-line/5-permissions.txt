@@ -1,1 +1,37 @@
-
+(venv) root@deepnote:~/work # touch notes.txt
+(venv) root@deepnote:~/work # ls -l notes.txt
+-rw-r--r--. 1 root users 0 Mar  4 20:58 notes.txt
+(venv) root@deepnote:~/work # chmod u+x notes.txt
+(venv) root@deepnote:~/work # chmod o-r notes.txt
+(venv) root@deepnote:~/work # ls -l
+total 8
+drwxr-x---. 1 root users 4096 Feb 10 21:27 'File_Create&Edit'
+-rwxr-----. 1 root users    0 Mar  4 20:58  notes.txt
+drwxr-xr-x. 1 root users 4096 Feb 26 18:17  Scientific_Programming_Austin_Jakes
+(venv) root@deepnote:~/work # rm notes.txt
+(venv) root@deepnote:~/work # ls -l
+total 8
+drwxr-x---. 1 root users 4096 Feb 10 21:27 'File_Create&Edit'
+drwxr-xr-x. 1 root users 4096 Feb 26 18:17  Scientific_Programming_Austin_Jakes
+(venv) root@deepnote:~/work #
+(venv) root@deepnote:~/work
+(venv) root@deepnote:~/wo
+(venv) root@deepnote:~/
+(venv) root@deepnote:~/
+(venv) root@deepnote:
+(venv) root@deepnote:~/work # echo '#!/bin/sh\necho "Hello, world!"' > script.sh
+(venv) root@deepnote:~/work # ./script.sh
+bash: ./script.sh: /bin/sh\necho: bad interpreter: Permission denied
+(venv) root@deepnote:~/work # chmod u+x script.sh
+(venv) root@deepnote:~/work # sudo chown new_user script.sh
+chown: invalid user: ‘new_user’
+(venv) root@deepnote:~/work # sudo chown Austin Jakes script.sh
+chown: invalid user: ‘Austin’
+(venv) root@deepnote:~/work # ls -l
+total 9
+drwxr-x---. 1 root users 4096 Feb 10 21:27 'File_Create&Edit'
+drwxr-xr-x. 1 root users 4096 Feb 26 18:17  Scientific_Programming_Austin_Jakes
+-rwxr--r--. 1 root users   32 Mar  4 21:03  script.sh
+(venv) root@deepnote:~/work # echo '#!/bin/sh\necho "Hello, world!"' > script.sh
+(venv) root@deepnote:~/work # rm script.sh
+(venv) root@deepnote:~/work # 
