@@ -1,2 +1,5 @@
 # Concepts
-* 
+* Index
+* String
+* Function
+*
