@@ -1,1 +1,30 @@
-
+    PID TTY          TIME CMD
+      1 ?        00:00:00 python
+     15 ?        00:00:00 sh
+     19 ?        00:00:02 python
+     21 ?        00:00:00 sh
+     24 ?        00:00:00 sh
+     25 ?        00:00:03 python
+     28 ?        00:00:00 sh
+     29 ?        00:00:00 python
+     32 ?        00:00:00 python
+     76 ?        00:00:01 python
+    118 ?        00:00:00 vi
+    144 ?        00:00:01 python
+    239 pts/0    00:00:00 bash
+    354 pts/0    00:00:00 ps
+(venv) root@deepnote:~/work # kill [PID]
+bash: kill: [PID]: arguments must be process or job IDs
+(venv) root@deepnote:~/work # sleep 100 &
+[1] 367
+(venv) root@deepnote:~/work # jobs
+[1]+  Running                 sleep 100 &
+(venv) root@deepnote:~/work # fg
+sleep 100
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # bash: ping: command not found
+ps
+    PID TTY          TIME CMD
+    239 pts/0    00:00:00 bash
+    417 pts/0    00:00:00 ps
+[1]+  Exit 127                ping google.com
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # 

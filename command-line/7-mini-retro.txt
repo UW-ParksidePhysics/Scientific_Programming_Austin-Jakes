@@ -1,17 +1,18 @@
-Partner:
+Partner:Austin
 
 What Went Well
----
+Terminal responded quickly
 
 
 What Would Make Next Time 1% Better
 ---
-* Focus:
+* Focus: 10/10
 
-* Communication:
+* Communication: 10/10
 
-* Pacing:
+* Pacing: 10/10
 
-* Division of responsibility
+* Division of responsibility: good
 
-* Code quality:
+* Code quality: code is not perfectly accurate
+ 
