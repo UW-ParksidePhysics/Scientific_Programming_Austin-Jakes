@@ -1,1 +1,16 @@
-
+(venv) root@deepnote:~/work # cd Scientific_Programming_Austin_Jakes/
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # find . -name "ball.py"
+./python/3d_visualization/ball.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # ls
+command-line  Project  python  test1.py  test2.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # grep "vpython" ball.py
+grep: ball.py: No such file or directory
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # find . -mtime -3
+./.import.swp
+./test1.py
+./test2.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # touch test1.py
+toutouch: cannot touch 'test1.py': No such file or directory
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # grep "import numpy" *.py
+grep: test2.py: No such file or directory
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # 
