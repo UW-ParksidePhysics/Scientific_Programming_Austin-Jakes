@@ -1,16 +1,213 @@
 (venv) root@deepnote:~/work # cd Scientific_Programming_Austin_Jakes/
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # cd clone
+bash: cd: clone: No such file or directory
 (venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # find . -name "ball.py"
 ./python/3d_visualization/ball.py
-(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # ls
-command-line  Project  python  test1.py  test2.py
-(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # grep "vpython" ball.py
-grep: ball.py: No such file or directory
-(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # find . -mtime -3
-./.import.swp
-./test1.py
-./test2.py
-(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # touch test1.py
-toutouch: cannot touch 'test1.py': No such file or directory
-(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # grep "import numpy" *.py
-grep: test2.py: No such file or directory
+^C
+
 (venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # 
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # cd python/3d_visualization/
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python/3d_visualization # grep "vpython" ball.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python/3d_visualization # cat ball.py
+"""
+ball.py
+
+Render a simple 3D sphere ("ball") using Plotly.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+import plotly.graph_objects as go
+
+
+def generate_sphere_mesh(
+    radius: float = 1.0,
+    center_x: float = 0.0,
+    center_y: float = 0.0,
+    center_z: float = 0.0,
+    number_of_latitudes: int = 60,
+    number_of_longitudes: int = 120,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Generate x, y, z coordinate arrays for a sphere surface mesh.
+
+    Uses spherical coordinates:
+      x = cx + r sin(phi) cos(theta)
+      y = cy + r sin(phi) sin(theta)
+      z = cz + r cos(phi)
+    """
+    phi_angles = np.linspace(0.0, np.pi, number_of_latitudes)
+    theta_angles = np.linspace(0.0, 2.0 * np.pi, number_of_longitudes)
+
+    phi_grid, theta_grid = np.meshgrid(phi_angles, theta_angles, indexing="ij")
+
+    x_coordinates = center_x + radius * np.sin(phi_grid) * np.cos(theta_grid)
+    y_coordinates = center_y + radius * np.sin(phi_grid) * np.sin(theta_grid)
+    z_coordinates = center_z + radius * np.cos(phi_grid)
+
+    return x_coordinates, y_coordinates, z_coordinates
+
+
+def build_sphere_figure(
+    radius: float = 1.0,
+    center_x: float = 0.0,
+    center_y: float = 0.0,
+    center_z: float = 0.0,
+) -> go.Figure:
+    """Build and return a Plotly figure containing a 3D sphere."""
+    x_coordinates, y_coordinates, z_coordinates = generate_sphere_mesh(
+        radius=radius,
+        center_x=center_x,
+        center_y=center_y,
+        center_z=center_z,
+    )
+
+    surface_trace = go.Surface(
+        x=x_coordinates,
+        y=y_coordinates,
+        z=z_coordinates,
+        showscale=False,
+    )
+
+    figure = go.Figure(data=[surface_trace])
+    figure.update_layout(
+        title="3D Sphere (Plotly)",
+        scene=dict(
+            xaxis_title='x',
+            yaxis_title='y',
+            zaxis_title='z',
+            aspectmode="data",
+        ),
+        margin=dict(l=0, r=0, t=50, b=0),
+    )
+    return figure
+
+
+def main() -> None:
+    """Render the sphere in a browser or notebook output."""
+    figure = build_sphere_figure(radius=1.0)
+    figure.show()
+
+
+if __name__ == "__main__":
+    main()
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python/3d_visualization # grep plotly ball.py
+import plotly.graph_objects as go
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python/3d_visualization # cd -
+/root/work/Scientific_Programming_Austin_Jakes
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # find . -mtime -3
+./.git/COMMIT_EDITMSG
+./.git/HEAD
+./.git/config
+./.git/description
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/fsmonitor-watchman.sample
+./.git/hooks/post-update.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/pre-merge-commit.sample
+./.git/hooks/pre-push.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/pre-receive.sample
+./.git/hooks/prepare-commit-msg.sample
+./.git/hooks/push-to-checkout.sample
+./.git/hooks/update.sample
+./.git/index
+./.git/info/exclude
+./.git/logs/HEAD
+./.git/logs/refs/heads/main
+./.git/logs/refs/remotes/origin/HEAD
+./.git/logs/refs/remotes/origin/main
+./.git/objects/00/05ee77fb04cd2c19a182bb51c097561c335810
+./.git/objects/07/448e7c058d12a2d909f7ab85787a790f1fd01f
+./.git/objects/07/ff60498269b9aa96fbc6e9c384bc9e4213e81a
+./.git/objects/07/ea41902cf02607b4a02aec86b3629716ef4582
+./.git/objects/08/381a121b9f51e3c8571f078505ad75c311ced2
+./.git/objects/09/4dbd9d86b66802c8bf7115de351322ba18adea
+./.git/objects/09/80e3df2af8c765043353c49f44e11efdf99942
+./.git/objects/0a/e2bacaec8280b83a517f2c7d31eadebf1ccd11
+./.git/objects/0a/ebef897acb35fc1f3072c219d11e7f2acaaf06
+./.git/objects/0b/06f8219a46eb872254a95465cb035d7af4a51d
+./.git/objects/0c/5609e97263b3f016b0ab7befe7b7b4bbbe3032
+./.git/objects/0c/2f139da915f2fcbbe98e5b3c156a8632ed7302
+./.git/objects/0d/8fd177ffcbaacdd1a34c685f835400f29d0428
+./.git/objects/0d/ebe54e0fd5fdd81246892c3132a7d7cfb64709
+./.git/objects/12/27e20207d8a32d844bfdc7cb631037f7c1f680
+./.git/objects/15/70345a56c8f45c787ec72559289177b112fb36
+./.git/objects/17/41027a80e015a0f626afe9de53c795221d259f
+./.git/objects/18/f13a76773af558e897af22f99f84d6e64fa77d
+./.git/objects/19/3b299603d18cd511ff1bc373e2f6e49ad9cfd6
+./.git/objects/19/d67ad7c469bd7bc4a0194a63734e15aada48ca
+./.git/objects/19/33e8772bd26f00bcbe54f60a2ff76ea5f7e579
+./.git/objects/1a/8faa9106dccfa992ee20a6ac5bee926ab6d323
+./.git/objects/1a/a8f36391d0fee5eb27c0a342074efe2c523554
+./.git/objects/1b/eb37880cf1592f0b7e1c0fd1c7e0038963ee69
+./.git/objects/1c/58d27b7273c4c17e14af6625ebd7b627eb11a3
+./.git/objects/1f/714030412caf9500dc0abd29cfa63442b9ad89
+./.git/objects/20/33e42da6ef948c0123efc3a92fe8047b6766f6
+./.git/objects/20/3069f834f4a1c0990a47ef14c8a14145c0c346
+./.git/objects/21/f1b9867368397e7a9bcc1acc2a6a25ce431346
+./.git/objects/2a/01c6581ad715981ba86ed2da0c866319a4b586
+./.git/objects/30/c6ca144a631c6404d8717dd863c30eaed43199
+./.git/objects/32/adfc5f7e6e08d36dfd6af0a23d1fbb2ef3e72f
+./.git/objects/33/b1b2d6515761ccfd421adf05ec33bbc4e704f5
+^C
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes # cd python
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # touch test1.py test2.py
+l(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # ls
+3d_visualization  computing_with_formulas   functions_and_branching  matrices  test1.py  user_input
+array_computing   dictionaries_and_strings  loops_and_lists          project   test2.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # vi *py
+2 files to edit
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # grep "import numpy" *.py
+test1.py:import numpy as np
+test2.py:import numpy as np
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # find . | grep "import numpy"
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # find . |xargs  grep "import numpy"
+grep: .: Is a directory
+grep: ./3d_visualization: Is a directory
+./3d_visualization/ball.py:import numpy as np
+./3d_visualization/birthday_station.py:import numpy as np
+./3d_visualization/birthday_vector.py:import numpy as np
+./3d_visualization/two_balls_bounce.py:import numpy as np
+./3d_visualization/two_balls_cross.py:import numpy as np
+grep: ./array_computing: Is a directory
+./array_computing/animate_planet_orbit.py:import numpy as np
+./array_computing/fill_arrays_by_for_loop.py:import numpy as np
+./array_computing/fill_arrays_vectorially.py:import numpy as np
+./array_computing/fill_gaussian_lists.py:import numpy as np
+./array_computing/plot_gaussian.py:import numpy as np
+./array_computing/plot_water_wave_velocity_distribution.py:import numpy as np
+grep: ./computing_with_formulas: Is a directory
+./computing_with_formulas/calculate_ball_drag_and_gravity.py:import numpy as np
+./computing_with_formulas/calculate_egg_cook_time.py:import numpy as np 
+./computing_with_formulas/calculate_gaussian_at_one_value.py:import numpy as np
+./computing_with_formulas/verify_trigonometric_identity.py:import numpy as np
+grep: ./dictionaries_and_strings: Is a directory
+./dictionaries_and_strings/compare_list_and_dictionary.py:import numpy as np
+./dictionaries_and_strings/create_constants_dictionary.py:import numpy as numpy
+./dictionaries_and_strings/create_stars_dictionary.py:import numpy as np
+./dictionaries_and_strings/make_hertzsprung_russell_diagram.py:import numpy as np
+./dictionaries_and_strings/plot_viscosities.py:import numpy as np
+./dictionaries_and_strings/read_and_plot_logarithmic_sum_output.py:import numpy as np
+grep: ./functions_and_branching: Is a directory
+./functions_and_branching/calculate_gaussian.py:import numpy as np
+./functions_and_branching/sort_stars_data.py:import numpy as np
+grep: ./loops_and_lists: Is a directory
+./loops_and_lists/generate_coordinate_grid.py:import numpy as np
+./loops_and_lists/table_temperature_conversion_and_approximation.py:import numpy as numpy
+./loops_and_lists/table_temperature_conversion_with_while.py:import numpy as numpy
+grep: ./matrices: Is a directory
+grep: ./project: Is a directory
+./project/project.py:#   import numpy as np
+./test1.py:import numpy as np
+./test2.py:import numpy as np
+grep: ./user_input: Is a directory
+grep: ./user_input/__pycache__: Is a directory
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # rm *.py
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # ls
+3d_visualization  computing_with_formulas   functions_and_branching  matrices  user_input
+array_computing   dictionaries_and_strings  loops_and_lists          project
+(venv) root@deepnote:~/work/Scientific_Programming_Austin_Jakes/python # 

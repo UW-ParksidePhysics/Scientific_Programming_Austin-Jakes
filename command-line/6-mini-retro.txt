@@ -1,7 +1,7 @@
 Partner: Austin
 
 What Went Well
---- Terminal was slow
+--- Terminal was ran
 
 
 What Would Make Next Time 1% Better
@@ -14,4 +14,4 @@ What Would Make Next Time 1% Better
 
 * Division of responsibility good
 
-* Code quality: could be better
+* Code quality: good
