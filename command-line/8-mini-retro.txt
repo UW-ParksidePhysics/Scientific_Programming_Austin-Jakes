@@ -1,1 +1,18 @@
+Partner:Austin,Prem
 
+What Went Well
+Terminal reasonable
+
+
+What Would Make Next Time 1% Better
+---
+* Focus: 10/10
+
+* Communication: 10/10
+
+* Pacing: 10/10
+
+* Division of responsibility: good,equal
+
+* Code quality: code works
+ 
