@@ -1,1 +1,11 @@
+(venv) root@deepnote:~/work # vi text.txt
 
+(venv) root@deepnote:~/work # 
+(venv) root@deepnote:~/work # /o :s/old/new/g
+bash: /o: No such file or directory
+(venv) root@deepnote:~/work # /o
+bash: /o: No such file or directory
+(venv) root@deepnote:~/work # /text
+bash: /text: No such file or directory
+(venv) root@deepnote:~/work # vi test.py
+(venv) root@deepnote:~/work # cat

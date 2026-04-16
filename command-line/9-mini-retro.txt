@@ -1,4 +1,4 @@
-Partner:
+Partner: Austin
 
 What Went Well
 ---
@@ -6,12 +6,12 @@ What Went Well
 
 What Would Make Next Time 1% Better
 ---
-* Focus:
+* Focus: 10/10
 
-* Communication:
+* Communication: 10/10
 
-* Pacing:
+* Pacing: good
 
-* Division of responsibility
+* Division of responsibility: good
 
-* Code quality:
+* Code quality: could be better
