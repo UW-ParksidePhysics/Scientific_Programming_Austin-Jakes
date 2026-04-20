@@ -1,3 +1,59 @@
 Topic: Model the local stellar neighborhood for building an physical exhibit
 
 Location: Heide Observatory
+
+
+# graph
+import matplotlib.pyplot as plt
+import numpy as np
+
+min_light_year_distance = 10
+max_light_year_distance = 50
+
+# a ~ (semi-major horizontal) 
+# b ~ (semi-minor axes vertical)
+# t ~ parametric values for curve (determines value of x and y)
+a_semi_maj, b_semi_min = 0, 0
+t = np.linspace(0, 2*np.pi, 100) # third value with a higher number = smoother curve
+
+# min light year greater than semi major a and less than equal to max light year distance
+while min_light_year_distance >= a_semi_maj <= max_light_year_distance: 
+
+    x_pos = a_semi_maj * np.cos(t)
+    y_pos = b_semi_min * np.sin(t)
+
+    #center vertical and horizontal at origin
+    plt.axvline(color='black')
+    plt.axhline(color='black')
+    t = np.linspace(0, 2*np.pi, 100)
+
+    plt.xlabel('$Light Years$')
+    plt.ylabel('$Light Years$')
+    plt.plot(x_pos, y_pos, color = 'blue')
+
+# every 5 light years = 1 ring
+    min_light_year_distance += 5
+    a_semi_maj = min_light_year_distance
+    b_semi_min += 2.5
+
+    
+plt.axis('equal')
+plt.title('Model Local Stellar Neighborhood')
+plt.show()
+
+
+# Astroquery
+
+from astroquery.simbad import Simbad
+
+
+Simbad.add_votable_fields('parallax')
+query = """SELECT ra, dec, main_id, otype, plx_value
+        FROM basic
+        WHERE otype = 'star..'
+        AND plx_value >= 6.0"""
+    
+Simbad.query_tap(query)
+
+# Astroquery Install
+!pip install astroquery
