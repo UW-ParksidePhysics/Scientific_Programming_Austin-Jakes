@@ -1,59 +1,336 @@
-Topic: Model the local stellar neighborhood for building an physical exhibit
+#adjustable parallax
+def get_star_information(parallax=500.0):
+    from astroquery.simbad import Simbad 
+    query = f"""
+SELECT 
+    b.main_id,
+    b.ra, 
+    b.dec,   
+    b.plx_value,
+    fb.flux AS B_mag,
+    fv.flux AS V_mag
+FROM basic AS b
+JOIN flux AS fb 
+    ON b.oid = fb.oidref AND fb.filter = 'B'
+JOIN flux AS fv 
+    ON b.oid = fv.oidref AND fv.filter = 'V'        
+WHERE b.otype = 'star..'
+  AND b.plx_value >= {parallax}
+"""
+    return Simbad.query_tap(query)
 
-Location: Heide Observatory
+
+#star Label
+def label_star(name, coordinates):
+    """
+    Label a star near its plotted position.
+    
+    Parameters
+    ----------
+    name : str
+        Star name.
+    coordinates : sequence of float
+        Cartesian coordinates [x, y, z] in parsecs.
+    """
+    ax = plt.gca()
+
+    x, y, z = coordinates
+    ax.text(x + 0.25, y + 0.25, z + 0.25, name, fontsize=10)
 
 
-# graph
+#Planar Grid
+def draw_planar_grid(circle_spacing, spoke_angle, max_radius=3.0, grid_color='white'):
+    """
+    Draw a simple planar reference grid in the x-y plane (z = 0),
+    using concentric circles and radial spokes.
+    
+    Parameters
+    ----------
+    circle_spacing : float
+        Spacing between circles, in plot units (parsecs).
+    spoke_angle : float
+        Angle between spokes, in degrees.
+    max_radius : float, optional
+        radius of largest circle, in parsecs
+    grid_color : string, optional
+        sets color of grid
+    """
+    ax = plt.gca()
+
+    
+    theta = np.linspace(0, 2 * np.pi, 400)
+
+    radius = circle_spacing
+    while radius <= max_radius:
+        x = radius * np.cos(theta)
+        y = radius * np.sin(theta)
+        z = np.zeros_like(theta)
+        ax.plot(x, y, z, linewidth=0.8, alpha=0.5, color=grid_color)
+        radius += circle_spacing
+
+    for angle_deg in np.arange(0, 360, spoke_angle):
+        angle_rad = np.radians(angle_deg)
+        x = np.array([0, max_radius * np.cos(angle_rad)])
+        y = np.array([0, max_radius * np.sin(angle_rad)])
+        z = np.array([0, 0])
+        ax.plot(x, y, z, linewidth=0.6, alpha=0.4, color=grid_color)
+
+
+
+#Three Dimensional Stellar Neighborhood graph
+"""
+Principal function:
+make_plot():
+    get_star_information()  -- Retrieves the information about stars within requested distance
+    draw_star() -- Adds star symbol, label, and line segment
+
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 
-min_light_year_distance = 10
-max_light_year_distance = 50
 
-# a ~ (semi-major horizontal) 
-# b ~ (semi-minor axes vertical)
-# t ~ parametric values for curve (determines value of x and y)
-a_semi_maj, b_semi_min = 0, 0
-t = np.linspace(0, 2*np.pi, 100) # third value with a higher number = smoother curve
+#adjustable variables
+def load_parameters():
+    plt.style.use('dark_background')
 
-# min light year greater than semi major a and less than equal to max light year distance
-while min_light_year_distance >= a_semi_maj <= max_light_year_distance: 
-
-    x_pos = a_semi_maj * np.cos(t)
-    y_pos = b_semi_min * np.sin(t)
-
-    #center vertical and horizontal at origin
-    plt.axvline(color='black')
-    plt.axhline(color='black')
-    t = np.linspace(0, 2*np.pi, 100)
-
-    plt.xlabel('$Light Years$')
-    plt.ylabel('$Light Years$')
-    plt.plot(x_pos, y_pos, color = 'blue')
-
-# every 5 light years = 1 ring
-    min_light_year_distance += 5
-    a_semi_maj = min_light_year_distance
-    b_semi_min += 2.5
-
+    font_size_of_label = 7
+    label_offset = 0.07
+    parallax_limit = 400.  # mas
     
-plt.axis('equal')
-plt.title('Model Local Stellar Neighborhood')
-plt.show()
+    return [font_size_of_label, label_offset, parallax_limit]
 
 
-# Astroquery
-
-from astroquery.simbad import Simbad
-
-
-Simbad.add_votable_fields('parallax')
-query = """SELECT ra, dec, main_id, otype, plx_value
-        FROM basic
-        WHERE otype = 'star..'
-        AND plx_value >= 6.0"""
+#-----------------------------------------------------------------------------------------
+def draw_star(name, angular_coordinates, parallax, color, 
+    marker_size=70, label_offset_from_star=0.001):
+    """
+    Convert equatorial coordinates and parallax into Cartesian coordinates,
+    draw the star, draw its planar height line, and label it.
     
-Simbad.query_tap(query)
+    Parameters
+    ----------
+    name : str
+        Name of the star.
+    angular_coordinates : sequence of float
+        [RA_deg, Dec_deg] in degrees.
+    parallax : float
+        Parallax in milliarcseconds.
+        If parallax <= 0, the star is not drawn.
+    color : float
+        B-V color index.
+    
+    Returns
+    -------
+    np.ndarray or None
+        Cartesian coordinates [x, y, z] in parsecs, or None if invalid.
+    """
+    ax = plt.gca()
 
-# Astroquery Install
-!pip install astroquery
+    if parallax <= 0:
+        print(f"Skipping {name}: parallax must be > 0.")
+        return None
+
+    ra_deg, dec_deg = angular_coordinates
+    ra_rad = np.radians(ra_deg)
+    dec_rad = np.radians(dec_deg)
+
+    distance_pc = 1000.0 / parallax
+
+    x = distance_pc * np.cos(dec_rad) * np.cos(ra_rad)
+    y = distance_pc * np.cos(dec_rad) * np.sin(ra_rad)
+    z = distance_pc * np.sin(dec_rad)
+
+    rgb_color = convert_bv_to_rgb(color)
+    ax.scatter([x], [y], [z], s=marker_size, color=rgb_color)
+    # draw_star_planar_height([x, y, z])
+    label_star(name, [x, y, z], label_offset=label_offset_from_star)
+    # print(x, y, z)
+
+    return np.array([x, y, z])
+
+
+# red blue green
+def convert_bv_to_rgb(bv_index):
+    """
+    Convert a star's B-V color index to an approximate RGB tuple.
+    
+    Parameters
+    ----------
+    bv_index : float
+        B-V color index of the star.
+    
+    Returns
+    -------
+    tuple
+        Approximate RGB color as (r, g, b), each in [0, 1].
+    """
+
+    bv = max(-0.4, min(2.0, bv_index))
+
+    if bv < 0.0:
+        t = (bv + 0.4) / 0.4
+        r = 0.61 + 0.11 * t + 0.1 * t * t
+    elif bv < 0.4:
+        t = bv / 0.4
+        r = 0.83 + 0.17 * t
+    else:
+        r = 1.0
+
+    if bv < 0.0:
+        t = (bv + 0.4) / 0.4
+        g = 0.70 + 0.07 * t + 0.1 * t * t
+    elif bv < 0.4:
+        t = bv / 0.4
+        g = 0.87 + 0.11 * t
+    elif bv < 1.6:
+        t = (bv - 0.4) / 1.2
+        g = 0.98 - 0.16 * t
+    else:
+        t = (bv - 1.6) / 0.4
+        g = 0.82 - 0.5 * t * t
+
+    if bv < 0.4:
+        b = 1.0
+    elif bv < 1.5:
+        t = (bv - 0.4) / 1.1
+        b = 1.0 - 0.47 * t + 0.1 * t * t
+    elif bv < 1.94:
+        t = (bv - 1.5) / 0.44
+        b = 0.63 - 0.6 * t * t
+    else:
+        b = 0.0
+
+
+    r = max(0.0, min(1.0, r))
+    g = max(0.0, min(1.0, g))
+    b = max(0.0, min(1.0, b))
+
+    return (r, g, b)
+
+
+def label_star(name, coordinates, label_size=7, label_offset=0.001):
+    """
+    Label a star near its plotted position.
+    
+    Parameters
+    ----------
+    name : str
+        Star name.
+    coordinates : sequence of float
+        Cartesian coordinates [x, y, z] in parsecs.
+    """
+    ax = plt.gca()
+
+    x, y, z = coordinates
+    ax.text(
+        x + label_offset, 
+        y + label_offset, 
+        z + label_offset, 
+        name, 
+        fontsize=label_size, 
+        color='white'
+        )
+
+
+def cleanup_name(star_mainid):
+    cleaned_name = star_mainid.replace('NAME ','')
+    cleaned_name = cleaned_name.replace('* ','')
+    cleaned_name = cleaned_name.replace('alf','Alpha')
+    cleaned_name = cleaned_name.replace('Cen ','Centauri')
+
+    return cleaned_name
+
+
+def make_plot():
+    import re 
+    label_fontsize, label_offset, parallax_minimum = load_parameters()
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+
+    draw_star('Sun', [0, 0], 1_000_000, 0.656, label_offset_from_star=label_offset)
+
+    star_information = get_star_information(parallax=parallax_minimum)
+    for star in star_information:
+        star_name = cleanup_name(star['main_id'])
+        star_coordinates = [star['ra'], star['dec']]
+        draw_star(star_name, 
+            star_coordinates,  
+            star['plx_value'], 
+            star['b_mag'] - star['v_mag'],
+            label_offset_from_star=label_offset
+            )
+
+    maximum_radius = 2    
+    draw_planar_grid(1, 30, max_radius=maximum_radius)
+
+    ax.set_axis_off()
+    ax.set_aspect('equal', adjustable='box')
+    # ax.dist = 10
+
+    #plt.xlim([-maximum_radius, maximum_radius])
+    #plt.ylim([-maximum_radius, maximum_radius])    
+    plt.tight_layout(pad=0.1)
+    
+
+    plt.show()
+
+if __name__ == '__main__':
+    make_plot()
+
+
+#Color indexdef convert_bv_to_rgb(bv_index):
+    """
+    Convert a star's B-V color index to an approximate RGB tuple.
+    
+    Parameters
+    ----------
+    bv_index : float
+        B-V color index of the star.
+    
+    Returns
+    -------
+    tuple
+        Approximate RGB color as (r, g, b), each in [0, 1].
+    """
+    bv = max(-0.4, min(2.0, bv_index))
+
+    if bv < 0.0:
+        t = (bv + 0.4) / 0.4
+        r = 0.61 + 0.11 * t + 0.1 * t * t
+    elif bv < 0.4:
+        t = bv / 0.4
+        r = 0.83 + 0.17 * t
+    else:
+        r = 1.0
+
+    if bv < 0.0:
+        t = (bv + 0.4) / 0.4
+        g = 0.70 + 0.07 * t + 0.1 * t * t
+    elif bv < 0.4:
+        t = bv / 0.4
+        g = 0.87 + 0.11 * t
+    elif bv < 1.6:
+        t = (bv - 0.4) / 1.2
+        g = 0.98 - 0.16 * t
+    else:
+        t = (bv - 1.6) / 0.4
+        g = 0.82 - 0.5 * t * t
+
+    if bv < 0.4:
+        b = 1.0
+    elif bv < 1.5:
+        t = (bv - 0.4) / 1.1
+        b = 1.0 - 0.47 * t + 0.1 * t * t
+    elif bv < 1.94:
+        t = (bv - 1.5) / 0.44
+        b = 0.63 - 0.6 * t * t
+    else:
+        b = 0.0
+
+    r = max(0.0, min(1.0, r))
+    g = max(0.0, min(1.0, g))
+    b = max(0.0, min(1.0, b))
+
+    return (r, g, b)
