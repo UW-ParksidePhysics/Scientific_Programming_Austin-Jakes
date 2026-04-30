@@ -1,0 +1,2 @@
+- Add flexible cutoff for V_mag maximum
+- Remove excess black space around edge
