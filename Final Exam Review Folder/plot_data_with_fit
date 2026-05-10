@@ -1,0 +1,19 @@
+__author__
+
+Parameters:
+data: ndarray, shape (2, M)
+x-y data that was fit. M is the number of data points.
+fit_curve: ndarray, shape (2, N)
+x-y data created by the coefficients of the fit function. N is the number of function evaluation points, usually much greater than M.
+data_format: str, optional
+Optional formatting specification for the style of the scatter plot data points. Default is 'o'. See Pyplot's plotLinks to an external site. for specifications. Use Pyplot's plot, not scatter, for this.
+fit_format: str, optional
+Optional formatting specification for the curve of the fit function. Default is '', an empty string. See Pyplot's plotLinks to an external site. for specifications.
+Returns:
+combined_plot
+A list of Line2DLinks to an external site. objects representing the plotted data. This is the default return type from Pyplot's plot.
+Raises:
+IndexError
+When either input array does not have shape (2, M) or (2, N).
+Test:
+Send data = np.array([[-2, -1, 0, 1, 2], [4, 1, 0, 1, 4]]) and fit_curve = np.array([np.linspace(-2, 2), np.linspace(-2, 2)**2]). Use plt.show() to visualize the returned plot with a dashed style for the fit curve and 'x' for the scatter data.

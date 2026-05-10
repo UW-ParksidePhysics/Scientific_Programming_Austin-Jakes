@@ -1,0 +1,18 @@
+__author__
+
+
+Parameters:
+square_matrix: ndarray, shape (M, M)
+Matrix to be characterized. Must be a square matrix of M rows and M columns where M is at least 1.
+number_of_eigenvectors: int, optional
+Number of eigenvectors K with eigenvalues to return. Default is 3.
+Returns:
+eigenvalues: ndarray, shape (K,)
+Array of the K lowest-value eigenvalues ordered from lowest to highest.
+eigenvectors: ndarray, shape (K, M)
+Array of K eigenvectors with M components arranged in order corresponding to their eigenvalues. The first index should correspond to the eigenvalue index in the eigenvalues array. The order of the components in each eigenvector should remain the same as output by NumPy's eig.
+Raises:
+IndexError
+When square_matrix is not square or when number_of_eigenvectors is less than 1 or greater than the number of rows in the matrix.
+Test:
+Pass square_matrix = np.array([[2, -1], [-1, 2]]) and number_of_eigenvectors = 2. Show that the eigenvalues are [1, 3] when ordered from lowest to highest. The corresponding eigenvectors should match the expected normalized eigenvectors up to sign, since NumPy may return an eigenvector multiplied by -1.

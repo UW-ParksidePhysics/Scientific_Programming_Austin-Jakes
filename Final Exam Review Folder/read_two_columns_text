@@ -1,0 +1,17 @@
+__author__
+
+Parameters:
+filename: str
+Name of file to be read in.
+Returns:
+data: ndarray, shape (2, M)
+x-y data read in from file. M is the number of data points.
+Raises:
+OSError
+When filename cannot be found for reading.
+Test:
+Read in volumes_energies.dat and print out the data array with its shape using:
+print(f'{data=}, shape={data.shape}')
+
+
+if __name__ == "__main__":
