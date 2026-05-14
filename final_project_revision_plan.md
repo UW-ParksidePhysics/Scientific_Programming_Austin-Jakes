@@ -1,13 +1,1 @@
-# TODO
-
-## Community Partner Feedback
-
-## Instructor Feedback
-
-## Functionality
-
-## Visualizations and Communication
-
-## Documentation and Reproducibility
-
-## Code Readability and Standards
+For the final revision project plan my community partner suggested to me various way to improve my python code. For example, I was suggested to “improve visual clutter by limiting displayed stars to those visible to the naked eye. I was also suggested to enhance the 3d scaling to better communicate the vast distances between stars”. This feedback was rather helpful as I am able to improve my python code. To take this feedback into effect I must make some changes to my python code such as making the plot more legible, as well as implementing a three dimensional scaling to the stellar neighborhood. There are numerous changes to be made as some are higher priority than the rest. The changes that would request the highest priority to the community partner would be to reduce the visual clutter from the stellar neighborhood. This is rather important as a plot that is illegible is considered to be counter intuitive. I will also have to make some changes for functionality, readability, and standard compliance. In terms of functionality, the code functions however it could be more informative by adding a legend. As of legibility it is immensely lacking. With this being said, there are some changes to be made that are out of my control due to my lack of coding experience. For instance, I would be unable to create a code for stars with labels that provide additional educational information. Although this would be quite informative to the user, I believe adding this will make the plot more illegible. The information that is adhered to each star would have to have its own function or library of data. In conclusion, the most important changes to be made is to make the stellar neighborhood plot more legible, and making a scale for the stars to be within reason.
